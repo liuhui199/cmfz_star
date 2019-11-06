@@ -15,7 +15,6 @@ import tk.mybatis.spring.annotation.MapperScan;
 public class CmfzStarApplication {
 
     public static void main(String[] args) {
-        System.out.println("这是入口类");
         SpringApplication.run(CmfzStarApplication.class, args);
     }
 
