@@ -1,5 +1,7 @@
 package com.baizhi.service;
 
+import com.baizhi.annotation.ClearRedisCache;
+import com.baizhi.annotation.RedisCache;
 import com.baizhi.dao.BannerDao;
 import com.baizhi.entity.Banner;
 import org.apache.ibatis.session.RowBounds;
@@ -18,6 +20,7 @@ public class BannerServiceImpl implements BannerService {
     private BannerDao bannerDao;
 
     @Override
+    @RedisCache //自定义注解
     public Map<String, Object> selectAll(Integer page, Integer rows) {
         Banner banner = new Banner();
         RowBounds rowBounds = new RowBounds((page - 1) * rows, rows);
@@ -33,6 +36,7 @@ public class BannerServiceImpl implements BannerService {
     }
     //添加
     @Override
+    @ClearRedisCache //自定义注解
     public String add(Banner banner) {
         banner.setId(UUID.randomUUID().toString());
         banner.setCreateDate(new Date());
@@ -44,6 +48,7 @@ public class BannerServiceImpl implements BannerService {
     }
     //修改
     @Override
+    @ClearRedisCache
     public void edit(Banner banner) {
         if("".equals(banner.getCover())){
             banner.setCover(null);
@@ -57,6 +62,7 @@ public class BannerServiceImpl implements BannerService {
     }
     //删除
     @Override
+    @ClearRedisCache
     public void del(String id, HttpServletRequest request) {
         Banner banner = bannerDao.selectByPrimaryKey(id);
         int i = bannerDao.deleteByPrimaryKey(id);
