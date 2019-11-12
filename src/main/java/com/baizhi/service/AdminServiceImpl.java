@@ -8,9 +8,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+
 @Service
 @Transactional
-public class AdminServiceImpl implements AdminService{
+public class AdminServiceImpl implements AdminService {
     @Autowired
     private AdminDao adminDao;
 
@@ -18,14 +19,14 @@ public class AdminServiceImpl implements AdminService{
     public void login(Admin admin, String enCode, HttpServletRequest request) {
         HttpSession session = request.getSession();
         String securityCode = (String) session.getAttribute("securityCode");
-        if(securityCode.equals(enCode)){
+        if (securityCode.equals(enCode)) {
             Admin one = adminDao.selectOne(admin);
-            if(one != null){
-                session.setAttribute("login",one);
-            }else {
+            if (one != null) {
+                session.setAttribute("login", one);
+            } else {
                 throw new RuntimeException("用户名或密码错误");
             }
-        }else {
+        } else {
             throw new RuntimeException("验证码错误");
         }
     }

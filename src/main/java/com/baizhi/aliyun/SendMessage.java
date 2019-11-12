@@ -10,7 +10,7 @@ import com.aliyuncs.profile.IClientProfile;
 
 public class SendMessage {
     //短信验证码推送
-    public static void sendMessage(String code) throws Exception{
+    public static void sendMessage(String code) throws Exception {
         //设置超时时间-可自行调整
         System.setProperty("sun.net.client.defaultConnectTimeout", "10000");
         System.setProperty("sun.net.client.defaultReadTimeout", "10000");
@@ -38,7 +38,7 @@ public class SendMessage {
         request.setTemplateCode("SMS_170835879");
         //可选:模板中的变量替换JSON串,如模板内容为"亲爱的${name},您的验证码为${code}"时,此处的值为
         //友情提示:如果JSON中需要带换行符,请参照标准的JSON协议对换行符的要求,比如短信内容中包含\r\n的情况在JSON中需要表示成\\r\\n,否则会导致JSON在服务端解析失败
-        request.setTemplateParam("{'code':"+code+"}");
+        request.setTemplateParam("{'code':" + code + "}");
         //可选-上行短信扩展码(扩展码字段控制在7位或以下，无特殊需求用户请忽略此字段)
         //request.setSmsUpExtendCode("90997");
         //可选:outId为提供给业务方扩展字段,最终在短信回执消息中将此值带回给调用者
@@ -46,7 +46,7 @@ public class SendMessage {
         //请求失败这里会抛ClientException异常
         SendSmsResponse sendSmsResponse = acsClient.getAcsResponse(request);
         System.out.println(sendSmsResponse.getCode());
-        if(sendSmsResponse.getCode() != null && sendSmsResponse.getCode().equals("OK")) {
+        if (sendSmsResponse.getCode() != null && sendSmsResponse.getCode().equals("OK")) {
             //请求成功
             System.out.println("请求成功");
 

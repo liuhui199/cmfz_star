@@ -22,31 +22,33 @@ public class ChapterServiceImpl implements ChapterService {
     private AlbumDao albumDao;
 
     @Override
-    public Map<String, Object> selectAll(Integer page, Integer rows,String albumId) {
+    public Map<String, Object> selectAll(Integer page, Integer rows, String albumId) {
         Chapter chapter = new Chapter();
         chapter.setAlbumId(albumId);
-        RowBounds rowBounds = new RowBounds((page-1)*rows,rows);
+        RowBounds rowBounds = new RowBounds((page - 1) * rows, rows);
         List<Chapter> list = chapterDao.selectByRowBounds(chapter, rowBounds);
         int count = chapterDao.selectCount(chapter);
 
         Map<String, Object> map = new HashMap<>();
-        map.put("page",page);
-        map.put("rows",list);
-        map.put("total",count%rows==0?count/rows:count/rows+1);
-        map.put("records",count);
+        map.put("page", page);
+        map.put("rows", list);
+        map.put("total", count % rows == 0 ? count / rows : count / rows + 1);
+        map.put("records", count);
         return map;
     }
+
     //添加
     @Override
     public String add(Chapter chapter) {
         chapter.setId(UUID.randomUUID().toString());
         chapter.setCreateDate(new Date());
         int i = chapterDao.insertSelective(chapter);
-        if(i == 0){
+        if (i == 0) {
             throw new RuntimeException("添加章节失败");
         }
         return chapter.getId();
     }
+
     //修改
     @Override
     public void edit(Chapter chapter) {
@@ -54,29 +56,30 @@ public class ChapterServiceImpl implements ChapterService {
         if(i == 0){
             throw new RuntimeException("修改章节失败");
         }*/
-        if("".equals(chapter.getName())){
+        if ("".equals(chapter.getName())) {
             chapter.setName(null);
         }
-        try{
+        try {
             chapterDao.updateByPrimaryKeySelective(chapter);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException("修改失败");
         }
     }
+
     //删除
     @Override
     public void del(String id, HttpServletRequest request) {
         Chapter chapter = chapterDao.selectByPrimaryKey(id);
-        System.out.println(id+"#####################");
+        System.out.println(id + "#####################");
         int i = chapterDao.deleteByPrimaryKey(id);
-        if(i == 0){
+        if (i == 0) {
             throw new RuntimeException("删除失败");
-        }else {
+        } else {
             String name = chapter.getName();
-            File file = new File(request.getServletContext().getRealPath("/music/"),name);
+            File file = new File(request.getServletContext().getRealPath("/music/"), name);
             boolean b = file.delete();
-            if(b == false){
+            if (b == false) {
                 throw new RuntimeException("删除章节文件失败");
             }
         }

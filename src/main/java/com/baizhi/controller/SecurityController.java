@@ -21,14 +21,14 @@ public class SecurityController {
         String securityCode = SecurityCode.getSecurityCode();
         System.out.println(securityCode);
         HttpSession session = request.getSession();
-        session.setAttribute("securityCode",securityCode);
+        session.setAttribute("securityCode", securityCode);
         BufferedImage image = SecurityImage.createImage(securityCode);
         response.setContentType("image/png");
-        ImageIO.write(image,"png",response.getOutputStream());
+        ImageIO.write(image, "png", response.getOutputStream());
     }
 
     @RequestMapping("quit")
-    public String login(HttpServletRequest request){
+    public String login(HttpServletRequest request) {
         request.getSession().removeAttribute("login");
         return "redirect:/login/login.jsp";
     }

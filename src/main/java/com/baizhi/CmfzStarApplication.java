@@ -36,6 +36,6 @@ public class CmfzStarApplication {
     //redis编程配置
     @Bean
     public Jedis getJedis() {
-        return new Jedis("192.168.147.145", 6379);
+        return new Jedis("192.168.147.145", 6379); //redis服务的机器ip，端口号
     }
 }

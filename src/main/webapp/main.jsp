@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <%@page isELIgnored="false" pageEncoding="UTF-8" contentType="text/html; UTF-8" %>
 <c:set var="app" value="${pageContext.request.contextPath}"></c:set>
 <html lang="en">
@@ -35,7 +36,8 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="#">欢迎:${login.nickname}</a></li>
+                <%--<li><a href="#">欢迎:${login.nickname}</a></li>--%>
+                <li><a href="#">欢迎:<shiro:principal/></a></li>
                 <li><a href="${app}/code/quit">退出登录</a></li>
             </ul>
         </div><!-- /.navbar-collapse -->
@@ -49,35 +51,40 @@
             <div class="panel panel-default">
                 <div class="panel-heading" role="tab" id="headingOne">
                     <h4 class="panel-title text-center">
-                        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne"
+                           aria-expanded="true" aria-controls="collapseOne">
                             <h4>轮播图管理</h4>
                         </a>
                     </h4>
                 </div>
                 <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
                     <div class="panel-body text-center">
-                        <a href="javascript:$('#content-layout').load('${app}/banner/banner.jsp');" class="btn btn-default">所有轮播图</a>
+                        <a href="javascript:$('#content-layout').load('${app}/banner/banner.jsp');"
+                           class="btn btn-default">所有轮播图</a>
                     </div>
                 </div>
             </div>
             <div class="panel panel-default">
                 <div class="panel-heading" role="tab" id="headingTwo">
                     <h4 class="panel-title text-center">
-                        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion"
+                           href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
                             <h4>专辑管理</h4>
                         </a>
                     </h4>
                 </div>
                 <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
                     <div class="panel-body text-center">
-                        <a href="javascript:$('#content-layout').load('${app}/album/album.jsp');" class="btn btn-default">所有专辑</a>
+                        <a href="javascript:$('#content-layout').load('${app}/album/album.jsp');"
+                           class="btn btn-default">所有专辑</a>
                     </div>
                 </div>
             </div>
             <div class="panel panel-default">
                 <div class="panel-heading" role="tab" id="headingThree">
                     <h4 class="panel-title text-center">
-                        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion"
+                           href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
                             <h4>文章管理</h4>
                         </a>
                     </h4>
@@ -85,13 +92,16 @@
                 <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
                     <div class="panel-body text-center">
                         <a href="javascript:$('#content-layout').load('article/article.jsp')" class="btn btn-default">所有文章</a>
+                        <br><br>
+                        <a href="javascript:$('#content-layout').load('article/search.jsp')" class="btn btn-default">搜索文章</a>
                     </div>
                 </div>
             </div>
             <div class="panel panel-default">
                 <div class="panel-heading" role="tab" id="headingFour">
                     <h4 class="panel-title text-center">
-                        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion"
+                           href="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
                             <h4>用户管理</h4>
                         </a>
                     </h4>
@@ -99,14 +109,17 @@
                 <div id="collapseFour" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFour">
                     <div class="panel-body text-center">
                         <a href="javascript:$('#content-layout').load('${app}/user/user.jsp')" class="btn btn-default">所有用户</a>
-                        <a href="javascript:$('#content-layout').load('${app}/user/user-line.jsp')" class="btn btn-default">注册趋势</a>
+                        <br><br>
+                        <a href="javascript:$('#content-layout').load('${app}/user/user-line.jsp')"
+                           class="btn btn-default">注册趋势</a>
                     </div>
                 </div>
             </div>
             <div class="panel panel-default">
                 <div class="panel-heading" role="tab" id="headingFive">
                     <h4 class="panel-title text-center">
-                        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion"
+                           href="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
                             <h4>明星管理</h4>
                         </a>
                     </h4>
@@ -117,6 +130,20 @@
                     </div>
                 </div>
             </div>
+            <shiro:authenticated>
+                <shiro:hasRole name="super">
+                    <div class="panel panel-default">
+                        <div class="panel-heading" role="tab" id="headingSix">
+                            <h4 class="panel-title text-center">
+                                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion"
+                                   href="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
+                                    <h4>管理员管理</h4>
+                                </a>
+                            </h4>
+                        </div>
+                    </div>
+                </shiro:hasRole>
+            </shiro:authenticated>
         </div>
     </div>
     <%--右侧展示部分--%>

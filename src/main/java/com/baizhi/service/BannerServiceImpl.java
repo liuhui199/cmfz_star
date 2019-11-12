@@ -24,16 +24,17 @@ public class BannerServiceImpl implements BannerService {
     public Map<String, Object> selectAll(Integer page, Integer rows) {
         Banner banner = new Banner();
         RowBounds rowBounds = new RowBounds((page - 1) * rows, rows);
-        List<Banner> banners = bannerDao.selectByRowBounds(banner,rowBounds);
+        List<Banner> banners = bannerDao.selectByRowBounds(banner, rowBounds);
         int conner = bannerDao.selectCount(banner);
 
-        Map<String,Object> map = new HashMap<>();
-        map.put("page",page);
-        map.put("rows",banners);
-        map.put("total",conner%rows==0?conner/rows:conner/rows+1);//总共有几页
-        map.put("records",conner);//总共多少条数据
+        Map<String, Object> map = new HashMap<>();
+        map.put("page", page); //起始页
+        map.put("rows", banners);  //每页几条
+        map.put("total", conner % rows == 0 ? conner / rows : conner / rows + 1);//总共有几页
+        map.put("records", conner);//总共多少条数据
         return map;
     }
+
     //添加
     @Override
     @ClearRedisCache //自定义注解
@@ -41,38 +42,40 @@ public class BannerServiceImpl implements BannerService {
         banner.setId(UUID.randomUUID().toString());
         banner.setCreateDate(new Date());
         int i = bannerDao.insertSelective(banner);
-        if(i == 0){
+        if (i == 0) {
             throw new RuntimeException("添加失败");
         }
         return banner.getId();
     }
+
     //修改
     @Override
     @ClearRedisCache
     public void edit(Banner banner) {
-        if("".equals(banner.getCover())){
+        if ("".equals(banner.getCover())) {
             banner.setCover(null);
         }
-        try{
+        try {
             bannerDao.updateByPrimaryKeySelective(banner);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException("修改失败");
         }
     }
+
     //删除
     @Override
     @ClearRedisCache
     public void del(String id, HttpServletRequest request) {
         Banner banner = bannerDao.selectByPrimaryKey(id);
         int i = bannerDao.deleteByPrimaryKey(id);
-        if(i == 0){
+        if (i == 0) {
             throw new RuntimeException("删除失败");
-        }else {
+        } else {
             String cover = banner.getCover();
-            File file = new File(request.getServletContext().getRealPath("/images/"),cover);
+            File file = new File(request.getServletContext().getRealPath("/images/"), cover);
             boolean b = file.delete();
-            if(b == false){
+            if (b == false) {
                 throw new RuntimeException("删除轮播图文件失败");
             }
         }

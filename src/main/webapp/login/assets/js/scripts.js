@@ -18,8 +18,7 @@ jQuery(document).ready(function () {
             if ($(this).val() == "") {
                 e.preventDefault();
                 $(this).addClass('input-error');
-            }
-            else {
+            } else {
                 $(this).removeClass('input-error');
             }
         });

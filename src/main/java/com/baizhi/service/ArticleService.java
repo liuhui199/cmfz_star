@@ -8,11 +8,17 @@ import java.util.Map;
 
 public interface ArticleService {
     //查询所有
-    Map<String,Object> selectAll(Integer page, Integer rows);
+    Map<String, Object> selectAll(Integer page, Integer rows);
+
     //添加
     String add(Article article);
+
     //修改
     void edit(Article article);
+
     //删除
     void del(String id, HttpServletRequest request);
+
+    //es查询
+    List<Article> search(String content);
 }

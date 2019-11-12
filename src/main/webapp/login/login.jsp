@@ -34,21 +34,21 @@
                 var username = $("#form-username").val();
                 var password = $("#form-password").val();
                 var inputCode = $("#form-code").val();
-                if(username && password && inputCode){
+                if (username && password && inputCode) {
                     $.ajax({
                         url: "${pageContext.request.contextPath}/admin/login",
                         type: "POST",
                         data: $("#loginForm").serialize(),
                         dataType: "json",
                         success: function (data) {
-                            if(data.status){
+                            if (data.status) {
                                 location.href = "${pageContext.request.contextPath}/main.jsp"
-                            }else{
-                                $("#error-message").html("<font color='red'>"+data.message+"<font>");
+                            } else {
+                                $("#error-message").html("<font color='red'>" + data.message + "<font>");
                             }
                         }
                     })
-                }else{
+                } else {
                     $("#error-message").html("<font color='red'>请输入完整信息<font>");
                 }
             })

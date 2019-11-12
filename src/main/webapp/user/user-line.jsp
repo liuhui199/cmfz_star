@@ -20,11 +20,11 @@
         tooltip: {},
         legend: {
             //中间的表示
-            data:['男','女']
+            data: ['男', '女']
         },
         //横坐标
         xAxis: {
-            data: ["一月份","二月份","三月份","四月份","五月份","六月份"]
+            data: ["一月份", "二月份", "三月份", "四月份", "五月份", "六月份"]
         },
         //纵坐标
         yAxis: {},
@@ -33,7 +33,7 @@
             type: 'line',//bar:柱状图
             //date 数据的展示，数据的高低也可以成为多少
             //data: [1,2,3,4,5,6]
-        },{
+        }, {
             name: '女',
             type: 'line',//bar:柱状图
             //data: [1,2,3,4,5,6]
@@ -43,10 +43,10 @@
     // 使用刚指定的配置项和数据显示图表。
     myChart.setOption(option);
     $.ajax({
-        url:"${pageContext.request.contextPath}/user/line",
-        type:"get",
-        datatype:"json",
-        success:function (data) {
+        url: "${pageContext.request.contextPath}/user/line",
+        type: "get",
+        datatype: "json",
+        success: function (data) {
             //弹框alert("data");
             //开始渲染数据
             myChart.setOption({
@@ -59,11 +59,11 @@
                     type: 'bar',//bar；柱状图。line折线图
                     //后台的键，通过键找值
                     data: data.man
-                },{
+                }, {
                     name: '女',
                     type: 'bar',//bar柱状图
                     // 后台的键，通过键找值
-                    data:  data.woman
+                    data: data.woman
                 }]
             });
         }
